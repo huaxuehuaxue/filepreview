@@ -30,7 +30,6 @@ import org.artofsolving.jodconverter.document.DocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.JsonDocumentFormatRegistry;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
-import org.json.JSONException;
 
 /**
  * Command line interface executable.
@@ -60,7 +59,7 @@ public class Convert {
         return options;
     }
 
-    public static void main(String[] arguments) throws ParseException, JSONException, IOException {
+    public static void main(String[] arguments) throws ParseException,IOException {
         CommandLineParser commandLineParser = new PosixParser();
         CommandLine commandLine = commandLineParser.parse(OPTIONS, arguments);
 
