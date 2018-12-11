@@ -13,5 +13,5 @@
     <packaging>pom</packaging>
 
     <name>fop</name>
-    <description>Demo project for Spring Boot</description>
+    <description>fop project for Spring Boot</description>
 </project>
