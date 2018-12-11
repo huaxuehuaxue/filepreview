@@ -104,7 +104,7 @@ public class OnlinePreviewController {
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
             httpURLConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
             inputStream = httpURLConnection.getInputStream();
-            byte[] bs = new byte[1024];
+            byte[] bs = new byte[8*1024];
             int len;
             while (-1 != (len = inputStream.read(bs))) {
                 resp.getOutputStream().write(bs, 0, len);

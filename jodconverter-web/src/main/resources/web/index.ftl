@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
-    <title>图片预览图</title>
+    <title>文件预览接入和测试</title>
     <link rel="stylesheet" href="css/viewer.min.css">
     <link rel="stylesheet" href="css/loading.css">
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<h1>文件预览项目接入和测试界面</h1>
+<h1>文件预览接入和测试</h1>
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -25,9 +25,10 @@
         <div id="collapseOne" class="panel-collapse collapse">
             <div class="panel-body">
                 <div>
-                    如果你的项目需要接入文件预览项目，达到对docx、excel、ppt、jpg等文件的预览效果，那么通过在你的项目中加入下面的代码就可以
-                    成功实现：
+                    在线文档预览，示例代码：
                     <pre style="background-color: #2f332a;color: #cccccc">
+                        var configuration.serverUrl = 'https://mp.jxtobacco.gov.cn/fop';
+                        var configuration.previewUrl = configuration.serverUrl + '/previewUrl';
                         $scope.openWin = function (fileUrl) {
                             var url = configuration.previewUrl + encodeURIComponent(fileUrl);
                             var winHeight = window.document.documentElement.clientHeight-10;
@@ -37,10 +38,11 @@
                     </pre>
                 </div>
                 <div>
-                    新增多图片同时预览功能，接口如下：
+                    新增多图片同时预览功能，示例代码：
                     <pre style="background-color: #2f332a;color: #cccccc">
+                        var configuration.serverUrl = 'https://mp.jxtobacco.gov.cn/fop';
                         var fileUrl =url1+"|"+"url2";//多文件使用“|”字符隔开
-                        var url = "http://localhost:8012/picturesPreview?urls" + encodeURIComponent(fileUrl);
+                        var url = configuration.serverUrl + "/picturesPreview?urls" + encodeURIComponent(fileUrl);
                         var winHeight = window.document.documentElement.clientHeight-10;
                         $window.open(url, "_blank", "height=" + winHeight
                                 + ",top=80,left=80,toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
@@ -73,26 +75,46 @@
             </div>
         </div>
     </div>
-    <div class="panel">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion"
                    href="#collapseThree">
-                    更新记录
+                    项目特性
                 </a>
             </h4>
         </div>
         <div id="collapseThree" class="panel-collapse collapse in">
             <div class="panel-body">
                 <div>
-                    2018年12月11日 ：<br>
-                        1.新增多图片同时预览<br>
-                        2.支持压缩包内图片轮番预览<br>
-                        3.引入pdf.js预览doc等文件，支持doc标题生成pdf预览菜单，支持手机端预览<br><br>
+                    1、支持office，pdf等办公文档<br>
+                    2、支持txt,java,php,py,md,js,json,css等所有纯文本<br>
+                    3、支持zip,rar,jar,tar,gzip等压缩包<br>
+                    4、支持jpg，jpeg，png，gif等图片预览（翻转，缩放，镜像）<br>
+                    5、rest接口提供服务，跨平台特性(java,php,python,go,php，....)都支持，应用接入简单方便<br><br>
                 </div>
             </div>
         </div>
-
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapse4">
+                    更新记录
+                </a>
+            </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div>
+                    2018年12月11日 ：<br>
+                    1.新增多图片同时预览<br>
+                    2.支持压缩包内图片轮番预览<br>
+                    3.引入pdf.js预览doc等文件，支持doc标题生成pdf预览菜单，支持手机端预览<br><br>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
