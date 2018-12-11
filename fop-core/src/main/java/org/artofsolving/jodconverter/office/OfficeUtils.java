@@ -82,11 +82,11 @@ public class OfficeUtils {
         } else {
             // Linux or other *nix variants
             return findOfficeHome(
-                "/opt/openoffice.org3",
-                "/opt/libreoffice",
-                "/usr/lib/openoffice",
-                "/usr/lib64/libreoffice",
-                "/usr/lib/libreoffice"
+                    "/usr/lib64/libreoffice",
+                    "/opt/openoffice.org3",
+                    "/opt/libreoffice",
+                    "/usr/lib/openoffice",
+                    "/usr/lib/libreoffice"
             );
         }
     }
