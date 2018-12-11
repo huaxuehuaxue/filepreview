@@ -14,6 +14,9 @@
 
 
     <properties>
+        <essm.j2cache.version>2.8.20181203</essm.j2cache.version>
+        <poi.version>3.17</poi.version>
+        <xwpf.version>2.0.1</xwpf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -58,6 +61,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.eryansky</groupId>-->
+            <!--<artifactId>essm-j2cache</artifactId>-->
+            <!--<version>${essm.j2cache.version}</version>-->
+        <!--</dependency>-->
         <!-- REDISSON -->
         <dependency>
             <groupId>org.redisson</groupId>
@@ -67,33 +75,17 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.12</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
-            <version>3.12</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>org.apache.poi.xwpf.converter.core</artifactId>
-            <version>1.0.5</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>poi</artifactId>
-                    <groupId>org.apache.poi</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
-            <version>1.0.5</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.opensagres.xdocreport</groupId>
-            <artifactId>fr.opensagres.xdocreport.document</artifactId>
-            <version>1.0.5</version>
+            <artifactId>fr.opensagres.poi.xwpf.converter.xhtml</artifactId>
+            <version>${xwpf.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -104,7 +96,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.9</version>
+            <version>1.18</version>
         </dependency>
         <!-- 解压(rar)-->
         <dependency>
