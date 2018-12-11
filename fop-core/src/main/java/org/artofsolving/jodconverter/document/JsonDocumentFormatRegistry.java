@@ -22,17 +22,18 @@ import org.apache.commons.io.IOUtils;
 
 public class JsonDocumentFormatRegistry extends SimpleDocumentFormatRegistry {
 
-    public JsonDocumentFormatRegistry(InputStream input) throws  IOException{
+    public JsonDocumentFormatRegistry(InputStream input) throws IOException {
         readJsonArray(IOUtils.toString(input));
     }
 
-    public JsonDocumentFormatRegistry(String source)throws IOException {
+    public JsonDocumentFormatRegistry(String source) throws IOException {
         readJsonArray(source);
     }
 
     private void readJsonArray(String source) throws IOException {
-        List<DocumentFormat> list = new ObjectMapper().readValue(source, new TypeReference<List<DocumentFormat>>() {});
-        for(DocumentFormat documentFormat:list){
+        List<DocumentFormat> list = new ObjectMapper().readValue(source, new TypeReference<List<DocumentFormat>>() {
+        });
+        for (DocumentFormat documentFormat : list) {
             addFormat(documentFormat);
         }
     }

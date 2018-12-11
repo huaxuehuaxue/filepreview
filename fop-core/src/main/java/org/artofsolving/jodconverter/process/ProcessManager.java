@@ -24,7 +24,7 @@ public interface ProcessManager {
     /**
      * @param query
      * @return the pid if found, {@link #PID_NOT_FOUND} if not,
-     *   or {@link #PID_UNKNOWN} if this implementation is unable to find out
+     * or {@link #PID_UNKNOWN} if this implementation is unable to find out
      * @throws IOException
      */
     long findPid(ProcessQuery query) throws IOException;

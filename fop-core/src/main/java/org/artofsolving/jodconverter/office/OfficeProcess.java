@@ -14,6 +14,7 @@ package org.artofsolving.jodconverter.office;
 
 import static org.artofsolving.jodconverter.process.ProcessManager.PID_NOT_FOUND;
 import static org.artofsolving.jodconverter.process.ProcessManager.PID_UNKNOWN;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,17 +58,17 @@ class OfficeProcess {
     public void start(boolean restart) throws IOException {
         ProcessQuery processQuery = new ProcessQuery("soffice.bin", unoUrl.getAcceptString());
         long existingPid = processManager.findPid(processQuery);
-    	if (!(existingPid == PID_NOT_FOUND || existingPid == PID_UNKNOWN)) {
-			throw new IllegalStateException(String.format("a process with acceptString '%s' is already running; pid %d",
-			        unoUrl.getAcceptString(), existingPid));
+        if (!(existingPid == PID_NOT_FOUND || existingPid == PID_UNKNOWN)) {
+            throw new IllegalStateException(String.format("a process with acceptString '%s' is already running; pid %d",
+                    unoUrl.getAcceptString(), existingPid));
         }
-    	if (!restart) {
-    	    prepareInstanceProfileDir();
-    	}
+        if (!restart) {
+            prepareInstanceProfileDir();
+        }
         List<String> command = new ArrayList<String>();
         File executable = OfficeUtils.getOfficeExecutable(officeHome);
         if (runAsArgs != null) {
-        	command.addAll(Arrays.asList(runAsArgs));
+            command.addAll(Arrays.asList(runAsArgs));
         }
         command.add(executable.getAbsolutePath());
         command.add("-accept=" + unoUrl.getAcceptString() + ";urp;");
@@ -141,7 +142,7 @@ class OfficeProcess {
         String ureLinkText = FileUtils.readFileToString(ureLink).trim();
         File ureHome = new File(basisHome, ureLinkText);
         File ureBin = new File(ureHome, "bin");
-        Map<String,String> environment = processBuilder.environment();
+        Map<String, String> environment = processBuilder.environment();
         // Windows environment variables are case insensitive but Java maps are not :-/
         // so let's make sure we modify the existing key
         String pathKey = "PATH";
@@ -163,9 +164,9 @@ class OfficeProcess {
     }
 
     private class ExitCodeRetryable extends Retryable {
-        
+
         private int exitCode;
-        
+
         protected void attempt() throws TemporaryException, Exception {
             try {
                 exitCode = process.exitValue();
@@ -173,7 +174,7 @@ class OfficeProcess {
                 throw new TemporaryException(illegalThreadStateException);
             }
         }
-        
+
         public int getExitCode() {
             return exitCode;
         }
@@ -201,7 +202,7 @@ class OfficeProcess {
     }
 
     public int forciblyTerminate(long retryInterval, long retryTimeout) throws IOException, RetryTimeoutException {
-        logger.info(String.format("trying to forcibly terminate process: '" + unoUrl + "'" + (pid != PID_UNKNOWN ? " (pid " + pid  + ")" : "")));
+        logger.info(String.format("trying to forcibly terminate process: '" + unoUrl + "'" + (pid != PID_UNKNOWN ? " (pid " + pid + ")" : "")));
         processManager.kill(process, pid);
         return getExitCode(retryInterval, retryTimeout);
     }

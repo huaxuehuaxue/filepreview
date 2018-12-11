@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 /**
  * 接口返回值结构
+ *
  * @author yudian-it
  * @date 2017/11/17
  */
-public class ReturnResponse<T> implements Serializable{
+public class ReturnResponse<T> implements Serializable {
     private static final long serialVersionUID = 313975329998789878L;
     /**
      * 返回状态

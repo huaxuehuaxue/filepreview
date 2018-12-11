@@ -21,8 +21,8 @@ public class DocumentFormat {
     private String extension;
     private String mediaType;
     private DocumentFamily inputFamily;
-    private Map<String,?> loadProperties;
-    private Map<DocumentFamily,Map<String,?>> storePropertiesByFamily;
+    private Map<String, ?> loadProperties;
+    private Map<DocumentFamily, Map<String, ?>> storePropertiesByFamily;
 
     public DocumentFormat() {
         // default
@@ -70,7 +70,7 @@ public class DocumentFormat {
         return loadProperties;
     }
 
-    public void setLoadProperties(Map<String,?> loadProperties) {
+    public void setLoadProperties(Map<String, ?> loadProperties) {
         this.loadProperties = loadProperties;
     }
 
@@ -78,18 +78,18 @@ public class DocumentFormat {
         return storePropertiesByFamily;
     }
 
-    public void setStorePropertiesByFamily(Map<DocumentFamily, Map<String,?>> storePropertiesByFamily) {
+    public void setStorePropertiesByFamily(Map<DocumentFamily, Map<String, ?>> storePropertiesByFamily) {
         this.storePropertiesByFamily = storePropertiesByFamily;
     }
 
-    public void setStoreProperties(DocumentFamily family, Map<String,?> storeProperties) {
+    public void setStoreProperties(DocumentFamily family, Map<String, ?> storeProperties) {
         if (storePropertiesByFamily == null) {
-            storePropertiesByFamily = new HashMap<DocumentFamily,Map<String,?>>();
+            storePropertiesByFamily = new HashMap<DocumentFamily, Map<String, ?>>();
         }
         storePropertiesByFamily.put(family, storeProperties);
     }
 
-    public Map<String,?> getStoreProperties(DocumentFamily family) {
+    public Map<String, ?> getStoreProperties(DocumentFamily family) {
         if (storePropertiesByFamily == null) {
             return null;
         }

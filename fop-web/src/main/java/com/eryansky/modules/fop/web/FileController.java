@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- *
  * @author yudian-it
  * @date 2017/12/1
  */
@@ -47,8 +46,8 @@ public class FileController {
         if (!outFile.exists()) {
             outFile.mkdirs();
         }
-        try(InputStream in = file.getInputStream();
-            OutputStream ot = new FileOutputStream(fileDir + demoPath + fileName)){
+        try (InputStream in = file.getInputStream();
+             OutputStream ot = new FileOutputStream(fileDir + demoPath + fileName)) {
             byte[] buffer = new byte[1024];
             int len;
             while ((-1 != (len = in.read(buffer)))) {
@@ -92,15 +91,16 @@ public class FileController {
 
     /**
      * 是否存在该类型的文件
-     * @return
+     *
      * @param fileName
+     * @return
      */
     private boolean existsTypeFile(String fileName) {
         boolean result = false;
         String suffix = fileUtils.getSuffixFromFileName(fileName);
         File file = new File(fileDir + demoPath);
         if (file.exists()) {
-            for(File file1 : file.listFiles()){
+            for (File file1 : file.listFiles()) {
                 String existsFileSuffix = fileUtils.getSuffixFromFileName(file1.getName());
                 if (suffix.equals(existsFileSuffix)) {
                     result = true;

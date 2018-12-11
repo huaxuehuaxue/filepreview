@@ -22,16 +22,16 @@ public class PictureFilePreviewImpl implements FilePreview {
 
     @Override
     public String filePreviewHandle(String url, Model model) {
-        String fileKey=(String) RequestContextHolder.currentRequestAttributes().getAttribute("fileKey",0);
+        String fileKey = (String) RequestContextHolder.currentRequestAttributes().getAttribute("fileKey", 0);
         List imgUrls = Lists.newArrayList(url);
-        try{
+        try {
             imgUrls.clear();
             imgUrls.addAll(fileUtils.getRedisImgUrls(fileKey));
-        }catch (Exception e){
+        } catch (Exception e) {
             imgUrls = Lists.newArrayList(url);
         }
         model.addAttribute("imgurls", imgUrls);
-        model.addAttribute("currentUrl",url);
+        model.addAttribute("currentUrl", url);
         return "picture";
     }
 }

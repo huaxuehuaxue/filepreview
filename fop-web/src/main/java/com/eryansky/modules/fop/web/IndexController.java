@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- *  页面跳转
+ * 页面跳转
+ *
  * @author yudian-it
  * @date 2017/12/27
  */
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String go2Index(){
+    public String go2Index() {
         return "index";
     }
 

@@ -40,13 +40,13 @@ public class OfficeUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static PropertyValue[] toUnoProperties(Map<String,?> properties) {
+    public static PropertyValue[] toUnoProperties(Map<String, ?> properties) {
         PropertyValue[] propertyValues = new PropertyValue[properties.size()];
         int i = 0;
-        for (Map.Entry<String,?> entry : properties.entrySet()) {
+        for (Map.Entry<String, ?> entry : properties.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof Map) {
-                Map<String,Object> subProperties = (Map<String,Object>) value;
+                Map<String, Object> subProperties = (Map<String, Object>) value;
                 value = toUnoProperties(subProperties);
             }
             propertyValues[i++] = property((String) entry.getKey(), value);
@@ -71,13 +71,13 @@ public class OfficeUtils {
                 programFiles = System.getenv("ProgramFiles");
             }
             return findOfficeHome(
-                programFiles + File.separator + "OpenOffice 4",
-                programFiles + File.separator + "LibreOffice 4"
+                    programFiles + File.separator + "OpenOffice 4",
+                    programFiles + File.separator + "LibreOffice 4"
             );
         } else if (PlatformUtils.isMac()) {
             return findOfficeHome(
-                "/Applications/OpenOffice.org.app/Contents",
-                "/Applications/LibreOffice.app/Contents"
+                    "/Applications/OpenOffice.org.app/Contents",
+                    "/Applications/LibreOffice.app/Contents"
             );
         } else {
             // Linux or other *nix variants

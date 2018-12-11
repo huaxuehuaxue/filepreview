@@ -29,16 +29,16 @@ import org.apache.commons.io.IOUtils;
  */
 public class LinuxProcessManager implements ProcessManager {
 
-    private static final Pattern PS_OUTPUT_LINE = Pattern.compile("^\\s*(\\d+)\\s+(.*)$"); 
+    private static final Pattern PS_OUTPUT_LINE = Pattern.compile("^\\s*(\\d+)\\s+(.*)$");
 
     private String[] runAsArgs;
 
     public void setRunAsArgs(String... runAsArgs) {
-		this.runAsArgs = runAsArgs;
-	}
+        this.runAsArgs = runAsArgs;
+    }
 
     protected String[] psCommand() {
-        return new String[] { "/bin/ps", "-e", "-o", "pid,args" };
+        return new String[]{"/bin/ps", "-e", "-o", "pid,args"};
     }
 
     public long findPid(ProcessQuery query) throws IOException {
@@ -58,21 +58,21 @@ public class LinuxProcessManager implements ProcessManager {
     }
 
     public void kill(Process process, long pid) throws IOException {
-    	if (pid <= 0) {
-    		throw new IllegalArgumentException("invalid pid: " + pid);
-    	}
+        if (pid <= 0) {
+            throw new IllegalArgumentException("invalid pid: " + pid);
+        }
         execute("/bin/kill", "-KILL", Long.toString(pid));
     }
 
     private List<String> execute(String... args) throws IOException {
-    	String[] command;
-    	if (runAsArgs != null) {
-    		command = new String[runAsArgs.length + args.length];
-    		System.arraycopy(runAsArgs, 0, command, 0, runAsArgs.length);
-    		System.arraycopy(args, 0, command, runAsArgs.length, args.length);
-    	} else {
-    		command = args;
-    	}
+        String[] command;
+        if (runAsArgs != null) {
+            command = new String[runAsArgs.length + args.length];
+            System.arraycopy(runAsArgs, 0, command, 0, runAsArgs.length);
+            System.arraycopy(args, 0, command, runAsArgs.length, args.length);
+        } else {
+            command = args;
+        }
         Process process = new ProcessBuilder(command).start();
         @SuppressWarnings("unchecked")
         List<String> lines = IOUtils.readLines(process.getInputStream());

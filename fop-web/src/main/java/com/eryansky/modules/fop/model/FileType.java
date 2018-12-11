@@ -14,8 +14,9 @@ public enum FileType {
     media("mediaFilePreviewImpl");
 
     private String instanceName;
-    FileType(String instanceName){
-        this.instanceName=instanceName;
+
+    FileType(String instanceName) {
+        this.instanceName = instanceName;
     }
 
     public String getInstanceName() {

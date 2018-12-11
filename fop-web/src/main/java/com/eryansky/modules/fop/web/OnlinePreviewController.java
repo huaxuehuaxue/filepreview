@@ -68,7 +68,7 @@ public class OnlinePreviewController {
         String[] imgs = decodedUrl.split("\\|");
         List imgurls = Arrays.asList(imgs);
         model.addAttribute("imgurls", imgurls);
-        model.addAttribute("currentUrl",decodedCurrentUrl);
+        model.addAttribute("currentUrl", decodedCurrentUrl);
         return "picture";
     }
 
@@ -83,9 +83,10 @@ public class OnlinePreviewController {
         String[] imgs = decodedUrl.split("\\|");
         List imgurls = Arrays.asList(imgs);
         model.addAttribute("imgurls", imgurls);
-        model.addAttribute("currentUrl",decodedCurrentUrl);
+        model.addAttribute("currentUrl", decodedCurrentUrl);
         return "picture";
     }
+
     /**
      * 根据url获取文件内容
      * 当pdfjs读取存在跨域问题的文件时将通过此接口读取
@@ -104,7 +105,7 @@ public class OnlinePreviewController {
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
             httpURLConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
             inputStream = httpURLConnection.getInputStream();
-            byte[] bs = new byte[8*1024];
+            byte[] bs = new byte[8 * 1024];
             int len;
             while (-1 != (len = inputStream.read(bs))) {
                 resp.getOutputStream().write(bs, 0, len);
@@ -120,6 +121,7 @@ public class OnlinePreviewController {
 
     /**
      * 通过api接口入队
+     *
      * @param url 请编码后在入队
      */
     @GetMapping("/addTask")

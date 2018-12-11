@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 
 /**
- *
  * @author yudian-it
  * @date 2017/11/30
  */
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class FilterConfiguration {
 
     @Bean
-    public FilterRegistrationBean getChinesePathFilter(){
+    public FilterRegistrationBean getChinesePathFilter() {
         ChinesePathFilter filter = new ChinesePathFilter();
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(filter);

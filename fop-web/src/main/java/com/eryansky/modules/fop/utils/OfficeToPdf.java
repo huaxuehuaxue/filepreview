@@ -1,7 +1,9 @@
 package com.eryansky.modules.fop.utils;
+
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.io.File;
 
 /**
@@ -16,16 +18,15 @@ public class OfficeToPdf {
      */
     @Autowired
     ConverterUtils converterUtils;
+
     /**
      * 使Office2003-2007全部格式的文档(.doc|.docx|.xls|.xlsx|.ppt|.pptx) 转化为pdf文件<br>
      *
-     * @param inputFilePath
-     *            源文件路径，如："e:/test.docx"
-     * @param outputFilePath
-     *            目标文件路径，如："e:/test_docx.pdf"
+     * @param inputFilePath  源文件路径，如："e:/test.docx"
+     * @param outputFilePath 目标文件路径，如："e:/test_docx.pdf"
      * @return
      */
-    public  boolean openOfficeToPDF(String inputFilePath, String outputFilePath) {
+    public boolean openOfficeToPDF(String inputFilePath, String outputFilePath) {
         return office2pdf(inputFilePath, outputFilePath);
     }
 
@@ -53,13 +54,11 @@ public class OfficeToPdf {
     /**
      * 使Office2003-2007全部格式的文档(.doc|.docx|.xls|.xlsx|.ppt|.pptx) 转化为pdf文件
      *
-     * @param inputFilePath
-     *            源文件路径，如："e:/test.docx"
-     * @param outputFilePath
-     *            目标文件路径，如："e:/test_docx.pdf"
+     * @param inputFilePath  源文件路径，如："e:/test.docx"
+     * @param outputFilePath 目标文件路径，如："e:/test_docx.pdf"
      * @return
      */
-    public  boolean office2pdf(String inputFilePath, String outputFilePath) {
+    public boolean office2pdf(String inputFilePath, String outputFilePath) {
         boolean flag = false;
         OfficeDocumentConverter converter = converterUtils.getDocumentConverter();
         if (null != inputFilePath) {

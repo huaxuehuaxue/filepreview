@@ -6,8 +6,7 @@ public class DeleteFileUtil {
     /**
      * 删除单个文件
      *
-     * @param fileName
-     *            要删除的文件的文件名
+     * @param fileName 要删除的文件的文件名
      * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean deleteFile(String fileName) {
@@ -31,8 +30,7 @@ public class DeleteFileUtil {
     /**
      * 删除目录及目录下的文件
      *
-     * @param dir
-     *            要删除的目录的文件路径
+     * @param dir 要删除的目录的文件路径
      * @return 目录删除成功返回true，否则返回false
      */
     public static boolean deleteDirectory(String dir) {

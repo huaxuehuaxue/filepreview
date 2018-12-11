@@ -29,10 +29,10 @@ public class CompressFilePreviewImpl implements FilePreview {
 
     @Override
     public String filePreviewHandle(String url, Model model) {
-        FileAttribute fileAttribute=fileUtils.getFileAttribute(url);
-        String fileName=fileAttribute.getName();
-        String decodedUrl=fileAttribute.getDecodedUrl();
-        String suffix=fileAttribute.getSuffix();
+        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        String fileName = fileAttribute.getName();
+        String decodedUrl = fileAttribute.getDecodedUrl();
+        String suffix = fileAttribute.getSuffix();
         String fileTree = null;
         // 判断文件名是否存在(redis缓存读取)
         if (!StringUtils.hasText(fileUtils.getConvertedFile(fileName))) {

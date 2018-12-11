@@ -11,6 +11,7 @@ import java.util.Map;
 
 /**
  * 重写了DefaultDocumentFormatRegistry类，因为要添加自定义行为，比如字符编码。。。
+ *
  * @author yudian-it
  * @date 2017/12/5
  */
@@ -41,7 +42,7 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
         // available for exporting Spreadsheet and Presentation formats
         html.setInputFamily(DocumentFamily.TEXT);
         html.setStoreProperties(DocumentFamily.TEXT, Collections.singletonMap("FilterName", "HTML (StarWriter)"));
-        Map<String,Object> htmlLoadAndStoreProperties = new LinkedHashMap<String,Object>();
+        Map<String, Object> htmlLoadAndStoreProperties = new LinkedHashMap<String, Object>();
         htmlLoadAndStoreProperties.put("FilterName", "HTML (StarCalc)");
         htmlLoadAndStoreProperties.put("FilterOptions", "utf8");
         html.setStoreProperties(DocumentFamily.SPREADSHEET, htmlLoadAndStoreProperties);
@@ -78,7 +79,7 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
 
         DocumentFormat txt = new DocumentFormat("Plain Text", "txt", "text/plain");
         txt.setInputFamily(DocumentFamily.TEXT);
-        Map<String,Object> txtLoadAndStoreProperties = new LinkedHashMap<String,Object>();
+        Map<String, Object> txtLoadAndStoreProperties = new LinkedHashMap<String, Object>();
         txtLoadAndStoreProperties.put("FilterName", "Text (encoded)");
         txtLoadAndStoreProperties.put("FilterOptions", "utf8");
         txt.setLoadProperties(txtLoadAndStoreProperties);
@@ -110,7 +111,7 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
 
         DocumentFormat csv = new DocumentFormat("Comma Separated Values", "csv", "text/csv");
         csv.setInputFamily(DocumentFamily.SPREADSHEET);
-        Map<String,Object> csvLoadAndStoreProperties = new LinkedHashMap<String,Object>();
+        Map<String, Object> csvLoadAndStoreProperties = new LinkedHashMap<String, Object>();
         csvLoadAndStoreProperties.put("FilterName", "Text - txt - csv (StarCalc)");
         csvLoadAndStoreProperties.put("FilterOptions", "44,34,0");  // Field Separator: ','; Text Delimiter: '"'
         csv.setLoadProperties(csvLoadAndStoreProperties);
@@ -119,7 +120,7 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
 
         DocumentFormat tsv = new DocumentFormat("Tab Separated Values", "tsv", "text/tab-separated-values");
         tsv.setInputFamily(DocumentFamily.SPREADSHEET);
-        Map<String,Object> tsvLoadAndStoreProperties = new LinkedHashMap<String,Object>();
+        Map<String, Object> tsvLoadAndStoreProperties = new LinkedHashMap<String, Object>();
         tsvLoadAndStoreProperties.put("FilterName", "Text - txt - csv (StarCalc)");
         tsvLoadAndStoreProperties.put("FilterOptions", "9,34,0");  // Field Separator: '\t'; Text Delimiter: '"'
         tsv.setLoadProperties(tsvLoadAndStoreProperties);
@@ -157,6 +158,7 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
 
     /**
      * 创建默认的导出属性
+     *
      * @return
      */
     private PropertyValue[] getCommonPropertyValue() {
@@ -164,47 +166,47 @@ public class ControlDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
         // 不显示文档标题
         aFilterData[0] = new PropertyValue();
         aFilterData[0].Name = "DisplayPDFDocumentTitle";
-        aFilterData[0].Value= true;
+        aFilterData[0].Value = true;
         // 导出文件编码方式
         aFilterData[1] = new PropertyValue();
         aFilterData[1].Name = "Encoding";
-        aFilterData[1].Value= "UTF-8";
+        aFilterData[1].Value = "UTF-8";
         // 隐藏工具条
         aFilterData[2] = new PropertyValue();
         aFilterData[2].Name = "HideViewerToolbar";
-        aFilterData[2].Value= false;
+        aFilterData[2].Value = false;
         // 隐藏窗口控制条
         aFilterData[3] = new PropertyValue();
         aFilterData[3].Name = "HideViewerWindowControls";
-        aFilterData[3].Value= true;
+        aFilterData[3].Value = true;
         // 全屏展示
         aFilterData[4] = new PropertyValue();
         aFilterData[4].Name = "OpenInFullScreenMode";
-        aFilterData[4].Value= false;
+        aFilterData[4].Value = false;
         // 第一页左边展示
         aFilterData[5] = new PropertyValue();
         aFilterData[5].Name = "MathToMathType";
-        aFilterData[5].Value= true;
+        aFilterData[5].Value = true;
         // 文档标题内容
         aFilterData[6] = new PropertyValue();
         aFilterData[6].Name = "Watermark";
-        aFilterData[6].Value= "KEKING.CN";
+        aFilterData[6].Value = "KEKING.CN";
         // 导出文件编码方式
         aFilterData[7] = new PropertyValue();
         aFilterData[7].Name = "CharacterSet";
-        aFilterData[7].Value= "UTF-8";
+        aFilterData[7].Value = "UTF-8";
         // 导出文件编码方式
         aFilterData[8] = new PropertyValue();
         aFilterData[8].Name = "Encoding";
-        aFilterData[8].Value= "UTF-8";
+        aFilterData[8].Value = "UTF-8";
         // 导出文件编码方式
         aFilterData[9] = new PropertyValue();
         aFilterData[9].Name = "CharSet";
-        aFilterData[9].Value= "UTF-8";
+        aFilterData[9].Value = "UTF-8";
         // 导出文件编码方式
         aFilterData[10] = new PropertyValue();
         aFilterData[10].Name = "charset";
-        aFilterData[10].Value= "UTF-8";
+        aFilterData[10].Value = "UTF-8";
         return aFilterData;
     }
 }

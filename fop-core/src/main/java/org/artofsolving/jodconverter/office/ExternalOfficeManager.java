@@ -18,7 +18,7 @@ import java.net.ConnectException;
  * {@link OfficeManager} implementation that connects to an external Office process.
  * <p>
  * The external Office process needs to be started manually, e.g. from the command line with
- * 
+ *
  * <pre>
  * soffice -accept="socket,host=127.0.0.1,port=2002;urp;"
  * </pre>
@@ -32,55 +32,54 @@ import java.net.ConnectException;
  */
 class ExternalOfficeManager implements OfficeManager {
 
-	private final OfficeConnection connection;
-	private final boolean connectOnStart;
+    private final OfficeConnection connection;
+    private final boolean connectOnStart;
 
-	/**
-	 * @param unoUrl
-	 * @param connectOnStart
-	 *            should a connection be attempted on {@link #start()}? Default is <em>true</em>. If <em>false</em>, a connection will only be attempted the first time an
-	 *            {@link OfficeTask} is executed.
-	 */
-	public ExternalOfficeManager(UnoUrl unoUrl, boolean connectOnStart) {
-		connection = new OfficeConnection(unoUrl);
-		this.connectOnStart = connectOnStart;
-	}
+    /**
+     * @param unoUrl
+     * @param connectOnStart should a connection be attempted on {@link #start()}? Default is <em>true</em>. If <em>false</em>, a connection will only be attempted the first time an
+     *                       {@link OfficeTask} is executed.
+     */
+    public ExternalOfficeManager(UnoUrl unoUrl, boolean connectOnStart) {
+        connection = new OfficeConnection(unoUrl);
+        this.connectOnStart = connectOnStart;
+    }
 
-	public void start() throws OfficeException {
-		if (connectOnStart) {
-			synchronized (connection) {
-				connect();
-			}
-		}
-	}
+    public void start() throws OfficeException {
+        if (connectOnStart) {
+            synchronized (connection) {
+                connect();
+            }
+        }
+    }
 
-	public void stop() {
-		synchronized (connection) {
-			if (connection.isConnected()) {
-				connection.disconnect();
-			}
-		}
-	}
+    public void stop() {
+        synchronized (connection) {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
 
-	public void execute(OfficeTask task) throws OfficeException {
-		synchronized (connection) {
-			if (!connection.isConnected()) {
-				connect();
-			}
-			task.execute(connection);
-		}
-	}
+    public void execute(OfficeTask task) throws OfficeException {
+        synchronized (connection) {
+            if (!connection.isConnected()) {
+                connect();
+            }
+            task.execute(connection);
+        }
+    }
 
-	private void connect() {
-		try {
-			connection.connect();
-		} catch (ConnectException connectException) {
-			throw new OfficeException("could not connect to external office process", connectException);
-		}
-	}
+    private void connect() {
+        try {
+            connection.connect();
+        } catch (ConnectException connectException) {
+            throw new OfficeException("could not connect to external office process", connectException);
+        }
+    }
 
-	public boolean isRunning() {
-		return connection.isConnected();
-	}
+    public boolean isRunning() {
+        return connection.isConnected();
+    }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
  * Content :处理pdf文件
  */
 @Service
-public class PdfFilePreviewImpl implements FilePreview{
+public class PdfFilePreviewImpl implements FilePreview {
 
     @Override
     public String filePreviewHandle(String url, Model model) {

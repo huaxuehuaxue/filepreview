@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- *
  * @author yudian-it
  * @date 2017/11/30
  */
@@ -21,7 +20,7 @@ public class ChinesePathFilter implements Filter {
         response.setCharacterEncoding("UTF-8");
         StringBuilder pathBuilder = new StringBuilder();
         pathBuilder.append(request.getScheme()).append("://").append(request.getServerName()).append(":")
-                .append(request.getServerPort()).append(((HttpServletRequest)request).getContextPath()).append("/");
+                .append(request.getServerPort()).append(((HttpServletRequest) request).getContextPath()).append("/");
         request.setAttribute("baseUrl", pathBuilder.toString());
         request.setAttribute("ctx", pathBuilder.toString());
         chain.doFilter(request, response);

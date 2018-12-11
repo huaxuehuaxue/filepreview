@@ -16,7 +16,7 @@ abstract class Retryable {
 
     /**
      * @throws TemporaryException for an error condition that can be temporary - i.e. retrying later could be successful
-     * @throws Exception for all other error conditions
+     * @throws Exception          for all other error conditions
      */
     protected abstract void attempt() throws TemporaryException, Exception;
 

@@ -26,8 +26,8 @@ public class DefaultOfficeManagerConfiguration {
 
     private File officeHome = OfficeUtils.getDefaultOfficeHome();
     private OfficeConnectionProtocol connectionProtocol = OfficeConnectionProtocol.SOCKET;
-    private int[] portNumbers = new int[] { 2002 };
-    private String[] pipeNames = new String[] { "office" };
+    private int[] portNumbers = new int[]{2002};
+    private String[] pipeNames = new String[]{"office"};
     private String[] runAsArgs = null;
     private File templateProfileDir = null;
     private File workDir = new File(System.getProperty("java.io.tmpdir"));
@@ -43,7 +43,7 @@ public class DefaultOfficeManagerConfiguration {
         return setOfficeHome(new File(officeHome));
     }
 
-    public DefaultOfficeManagerConfiguration setOfficeHome(File officeHome) throws NullPointerException, IllegalArgumentException  {
+    public DefaultOfficeManagerConfiguration setOfficeHome(File officeHome) throws NullPointerException, IllegalArgumentException {
         checkArgumentNotNull("officeHome", officeHome);
         checkArgument("officeHome", officeHome.isDirectory(), "must exist and be a directory");
         this.officeHome = officeHome;
@@ -57,7 +57,7 @@ public class DefaultOfficeManagerConfiguration {
     }
 
     public DefaultOfficeManagerConfiguration setPortNumber(int portNumber) {
-        this.portNumbers = new int[] { portNumber };
+        this.portNumbers = new int[]{portNumber};
         return this;
     }
 
@@ -70,7 +70,7 @@ public class DefaultOfficeManagerConfiguration {
 
     public DefaultOfficeManagerConfiguration setPipeName(String pipeName) throws NullPointerException {
         checkArgumentNotNull("pipeName", pipeName);
-        this.pipeNames = new String[] { pipeName };
+        this.pipeNames = new String[]{pipeName};
         return this;
     }
 
@@ -82,9 +82,9 @@ public class DefaultOfficeManagerConfiguration {
     }
 
     public DefaultOfficeManagerConfiguration setRunAsArgs(String... runAsArgs) {
-		this.runAsArgs = runAsArgs;
-		return this;
-	}
+        this.runAsArgs = runAsArgs;
+        return this;
+    }
 
     public DefaultOfficeManagerConfiguration setTemplateProfileDir(File templateProfileDir) throws IllegalArgumentException {
         if (templateProfileDir != null) {
@@ -98,7 +98,7 @@ public class DefaultOfficeManagerConfiguration {
      * Sets the directory where temporary office profiles will be created.
      * <p>
      * Defaults to the system temporary directory as specified by the <code>java.io.tmpdir</code> system property.
-     * 
+     *
      * @param workDir
      * @return
      */
@@ -129,7 +129,7 @@ public class DefaultOfficeManagerConfiguration {
      * The default is to use {@link SigarProcessManager} if sigar.jar is
      * available in the classpath, otherwise {@link LinuxProcessManager}
      * on Linux and {@link PureJavaProcessManager} on other platforms.
-     * 
+     *
      * @param processManager
      * @return
      * @throws NullPointerException
@@ -143,7 +143,7 @@ public class DefaultOfficeManagerConfiguration {
     /**
      * Retry timeout set in milliseconds. Used for retrying office process calls.
      * If not set, it defaults to 2 minutes
-     * 
+     *
      * @param retryTimeout in milliseconds
      * @return
      */
@@ -170,7 +170,7 @@ public class DefaultOfficeManagerConfiguration {
         if (processManager == null) {
             processManager = findBestProcessManager();
         }
-        
+
         int numInstances = connectionProtocol == OfficeConnectionProtocol.PIPE ? pipeNames.length : portNumbers.length;
         UnoUrl[] unoUrls = new UnoUrl[numInstances];
         for (int i = 0; i < numInstances; i++) {
@@ -183,11 +183,11 @@ public class DefaultOfficeManagerConfiguration {
         if (isSigarAvailable()) {
             return new SigarProcessManager();
         } else if (PlatformUtils.isLinux()) {
-        	LinuxProcessManager processManager = new LinuxProcessManager();
-        	if (runAsArgs != null) {
-        		processManager.setRunAsArgs(runAsArgs);
-        	}
-        	return processManager;
+            LinuxProcessManager processManager = new LinuxProcessManager();
+            if (runAsArgs != null) {
+                processManager.setRunAsArgs(runAsArgs);
+            }
+            return processManager;
         } else {
             // NOTE: UnixProcessManager can't be trusted to work on Solaris
             // because of the 80-char limit on ps output there  

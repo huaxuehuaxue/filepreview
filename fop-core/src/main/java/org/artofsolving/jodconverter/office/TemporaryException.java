@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 /**
  * Represents an error condition that can be temporary, i.e. that could go
- * away by simply retrying the same operation after an interval.  
+ * away by simply retrying the same operation after an interval.
  */
 class TemporaryException extends Exception {
 

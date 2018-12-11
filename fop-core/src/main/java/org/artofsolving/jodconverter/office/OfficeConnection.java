@@ -93,7 +93,7 @@ class OfficeConnection implements OfficeContext {
         } catch (NoConnectException connectException) {
             throw new ConnectException(String.format("connection failed: '%s'; %s", unoUrl, connectException.getMessage()));
         } catch (Exception exception) {
-            throw new OfficeException("connection failed: "+ unoUrl, exception);
+            throw new OfficeException("connection failed: " + unoUrl, exception);
         }
     }
 

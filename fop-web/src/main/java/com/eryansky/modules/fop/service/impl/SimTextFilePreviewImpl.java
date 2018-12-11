@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
  * Content :处理文本文件
  */
 @Service
-public class SimTextFilePreviewImpl implements FilePreview{
+public class SimTextFilePreviewImpl implements FilePreview {
 
     @Autowired
     SimTextUtil simTextUtil;
@@ -23,14 +23,14 @@ public class SimTextFilePreviewImpl implements FilePreview{
     FileUtils fileUtils;
 
     @Override
-    public String filePreviewHandle(String url, Model model){
-        FileAttribute fileAttribute=fileUtils.getFileAttribute(url);
-        String decodedUrl=fileAttribute.getDecodedUrl();
-        String fileName=fileAttribute.getName();
+    public String filePreviewHandle(String url, Model model) {
+        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        String decodedUrl = fileAttribute.getDecodedUrl();
+        String fileName = fileAttribute.getName();
         ReturnResponse<String> response = simTextUtil.readSimText(decodedUrl, fileName);
         if (0 != response.getCode()) {
             model.addAttribute("msg", response.getMsg());
-            model.addAttribute("fileType",fileAttribute.getSuffix());
+            model.addAttribute("fileType", fileAttribute.getSuffix());
             return "fileNotSupported";
         }
         model.addAttribute("ordinaryUrl", response.getMsg());

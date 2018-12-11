@@ -59,7 +59,7 @@ public class Convert {
         return options;
     }
 
-    public static void main(String[] arguments) throws ParseException,IOException {
+    public static void main(String[] arguments) throws ParseException, IOException {
         CommandLineParser commandLineParser = new PosixParser();
         CommandLine commandLine = commandLineParser.parse(OPTIONS, arguments);
 
@@ -121,5 +121,5 @@ public class Convert {
             officeManager.stop();
         }
     }
-    
+
 }

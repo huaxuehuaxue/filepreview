@@ -47,12 +47,12 @@ class ManagedOfficeProcessSettings {
     }
 
     public String[] getRunAsArgs() {
-		return runAsArgs;
-	}
+        return runAsArgs;
+    }
 
     public void setRunAsArgs(String[] runAsArgs) {
-		this.runAsArgs = runAsArgs;
-	}
+        this.runAsArgs = runAsArgs;
+    }
 
     public File getTemplateProfileDir() {
         return templateProfileDir;

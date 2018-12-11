@@ -25,7 +25,7 @@ public class ConverterUtils {
 
     @Value("${office.home}")
     String officeHome;
-//    OpenOfficeConnection connection;
+    //    OpenOfficeConnection connection;
     OfficeManager officeManager;
 
     @PostConstruct
@@ -49,8 +49,8 @@ public class ConverterUtils {
         return converter;
     }
 
-    private Map<String,?> getLoadProperties() {
-        Map<String,Object> loadProperties = new HashMap<>(10);
+    private Map<String, ?> getLoadProperties() {
+        Map<String, Object> loadProperties = new HashMap<>(10);
         loadProperties.put("Hidden", true);
         loadProperties.put("ReadOnly", true);
         loadProperties.put("UpdateDocMode", UpdateDocMode.QUIET_UPDATE);
@@ -59,7 +59,7 @@ public class ConverterUtils {
     }
 
     @PreDestroy
-    public void destroyOfficeManager(){
+    public void destroyOfficeManager() {
         if (null != officeManager && officeManager.isRunning()) {
             officeManager.stop();
         }
