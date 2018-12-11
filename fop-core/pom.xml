@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.eryansky</groupId>
-    <artifactId>jodconverter-core</artifactId>
+    <artifactId>fop-core</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -53,6 +53,11 @@
             <version>1.6.5.132</version>
             <optional>true</optional>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.fusesource</groupId>-->
+            <!--<artifactId>sigar</artifactId>-->
+            <!--<version>1.6.4</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

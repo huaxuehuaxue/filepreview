@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jodconverter-web</artifactId>
+    <artifactId>fop-web</artifactId>
 
 
     <properties>
@@ -22,14 +22,14 @@
         <java.version>1.8</java.version>
         <ufile.sdk.verison>1.0-SNAPSHOT</ufile.sdk.verison>
         <logging.path>${basedir}/target/classes/logs</logging.path>
-        <appName>file-preview</appName>
+        <appName>fop</appName>
     </properties>
     <repositories>
-        <repository>
-            <!-- required for org.hyperic:sigar -->
-            <id>jboss-public-repository-group</id>
-            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-        </repository>
+        <!--<repository>-->
+            <!--&lt;!&ndash; required for org.hyperic:sigar &ndash;&gt;-->
+            <!--<id>jboss-public-repository-group</id>-->
+            <!--<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>-->
+        <!--</repository>-->
     </repositories>
     <dependencies>
         <dependency>
@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.eryansky</groupId>
-            <artifactId>jodconverter-core</artifactId>
+            <artifactId>fop-core</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
