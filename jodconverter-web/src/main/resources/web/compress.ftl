@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="zh-cmn-Hans">
 <head>
     <link href="css/zTreeStyle.css" rel="stylesheet" type="text/css">
     <style type="text/css">

@@ -23,6 +23,7 @@ public class ChinesePathFilter implements Filter {
         pathBuilder.append(request.getScheme()).append("://").append(request.getServerName()).append(":")
                 .append(request.getServerPort()).append(((HttpServletRequest)request).getContextPath()).append("/");
         request.setAttribute("baseUrl", pathBuilder.toString());
+        request.setAttribute("ctx", pathBuilder.toString());
         chain.doFilter(request, response);
     }
 

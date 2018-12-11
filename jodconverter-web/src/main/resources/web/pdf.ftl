@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="zh-cmn-Hans">
 <head>
     <style type="text/css">
         body{
@@ -16,7 +15,7 @@
     <#else>
         <#assign finalUrl="${baseUrl}${pdfUrl}">
     </#if>
-    <iframe src="/pdfjs/web/viewer.html?file=${finalUrl}" width="100%" frameborder="0"></iframe>
+    <iframe src="${baseUrl}/pdfjs/web/viewer.html?file=${finalUrl}" width="100%" frameborder="0"></iframe>
 </body>
 <script type="text/javascript">
     document.getElementsByTagName('iframe')[0].height = document.documentElement.clientHeight-10;

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="zh-cmn-Hans">
 
 <body>
 ${doc}
