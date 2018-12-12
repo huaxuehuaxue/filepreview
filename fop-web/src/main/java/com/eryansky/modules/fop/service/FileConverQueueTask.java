@@ -5,6 +5,7 @@ import com.eryansky.modules.fop.model.FileType;
 import com.eryansky.modules.fop.utils.FileUtils;
 import io.lettuce.core.KeyValue;
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisCommandTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,8 @@ public class FileConverQueueTask {
                             filePreview.filePreviewHandle(url, new ExtendedModelMap());
                         }
                     }
+                } catch (RedisCommandTimeoutException e){
+
                 } catch (Exception e) {
                     try {
                         Thread.sleep(1000 * 10);
