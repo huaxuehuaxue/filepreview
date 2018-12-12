@@ -2,9 +2,15 @@ package com.eryansky.modules.fop.utils;
 
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.redisson.api.RMapCache;
-import org.redisson.api.RedissonClient;
+import com.sun.xml.internal.bind.v2.model.core.TypeRef;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
+import org.artofsolving.jodconverter.document.DocumentFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +36,7 @@ public class FileUtils {
     final String REDIS_FILE_PREVIEW_PDF_KEY = "converted-preview-pdf-file";
     final String REDIS_FILE_PREVIEW_IMGS_KEY = "converted-preview-imgs-file";//压缩包内图片文件集合
     @Autowired
-    RedissonClient redissonClient;
+    RedisClient redisClient;
     @Value("${file.dir}")
     String fileDir;
 
@@ -49,8 +55,8 @@ public class FileUtils {
      * @return
      */
     public Map<String, String> listConvertedFiles() {
-        RMapCache<String, String> convertedList = redissonClient.getMapCache(REDIS_FILE_PREVIEW_PDF_KEY);
-        return convertedList;
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        return connection.sync().hgetall(REDIS_FILE_PREVIEW_PDF_KEY);
     }
 
     /**
@@ -58,9 +64,9 @@ public class FileUtils {
      *
      * @return
      */
-    public String getConvertedFile(String key) {
-        RMapCache<String, String> convertedList = redissonClient.getMapCache(REDIS_FILE_PREVIEW_PDF_KEY);
-        return convertedList.get(key);
+    public String getConvertedFile(String field) {
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        return connection.sync().hget(REDIS_FILE_PREVIEW_PDF_KEY,field);
     }
 
     /**
@@ -175,8 +181,8 @@ public class FileUtils {
     }
 
     public void addConvertedFile(String fileName, String value) {
-        RMapCache<String, String> convertedList = redissonClient.getMapCache(REDIS_FILE_PREVIEW_PDF_KEY);
-        convertedList.fastPut(fileName, value);
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        connection.sync().hset(REDIS_FILE_PREVIEW_PDF_KEY,fileName,value);
     }
 
     /**
@@ -185,9 +191,16 @@ public class FileUtils {
      * @param fileKey
      * @return
      */
-    public List getRedisImgUrls(String fileKey) {
-        RMapCache<String, List> convertedList = redissonClient.getMapCache(REDIS_FILE_PREVIEW_IMGS_KEY);
-        return convertedList.get(fileKey);
+    public List<String> getRedisImgUrls(String fileKey) {
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        RedisCommands<String,String> redisCommands = connection.sync();
+        String value = redisCommands.hget(REDIS_FILE_PREVIEW_IMGS_KEY,fileKey);
+        try {
+           return new ObjectMapper().readValue(value, new TypeReference<List<String>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -196,9 +209,16 @@ public class FileUtils {
      * @param fileKey
      * @param imgs
      */
-    public void setRedisImgUrls(String fileKey, List imgs) {
-        RMapCache<String, List> convertedList = redissonClient.getMapCache(REDIS_FILE_PREVIEW_IMGS_KEY);
-        convertedList.fastPut(fileKey, imgs);
+    public void setRedisImgUrls(String fileKey, List<String> imgs) {
+        StatefulRedisConnection<String, String> connection = redisClient.connect();
+        RedisCommands<String,String> redisCommands = connection.sync();
+        String value = null;
+        try {
+            value = new ObjectMapper().writeValueAsString(imgs);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        redisCommands.hset(REDIS_FILE_PREVIEW_IMGS_KEY,fileKey,value);
     }
 
     /**
@@ -247,7 +267,7 @@ public class FileUtils {
             // 添加sheet控制头
             sb.append("<script src=\"js/jquery-3.0.0.min.js\" type=\"text/javascript\"></script>");
             sb.append("<script src=\"js/excel.header.js\" type=\"text/javascript\"></script>");
-            sb.append("<link rel=\"stylesheet\" href=\"http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css\">");
+            sb.append("<link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

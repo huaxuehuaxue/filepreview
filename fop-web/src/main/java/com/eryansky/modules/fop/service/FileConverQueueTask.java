@@ -3,8 +3,8 @@ package com.eryansky.modules.fop.service;
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
 import com.eryansky.modules.fop.utils.FileUtils;
-import org.redisson.api.RBlockingQueue;
-import org.redisson.api.RedissonClient;
+import io.lettuce.core.KeyValue;
+import io.lettuce.core.RedisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ public class FileConverQueueTask {
     public static final String queueTaskName = "FileConverQueueTask";
 
     @Autowired
-    FilePreviewFactory previewFactory;
+    FilePreviewFactory filePreviewFactory;
 
     @Autowired
-    RedissonClient redissonClient;
+    RedisClient redisClient;
 
     @Autowired
     FileUtils fileUtils;
@@ -37,7 +37,7 @@ public class FileConverQueueTask {
     @PostConstruct
     public void startTask() {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        executorService.submit(new ConverTask(previewFactory, redissonClient, fileUtils));
+        executorService.submit(new ConverTask(filePreviewFactory, redisClient, fileUtils));
         logger.info("队列处理文件转换任务启动完成 ");
     }
 
@@ -45,13 +45,13 @@ public class FileConverQueueTask {
 
         FilePreviewFactory previewFactory;
 
-        RedissonClient redissonClient;
+        RedisClient redisClient;
 
         FileUtils fileUtils;
 
-        public ConverTask(FilePreviewFactory previewFactory, RedissonClient redissonClient, FileUtils fileUtils) {
+        public ConverTask(FilePreviewFactory previewFactory, RedisClient redisClient, FileUtils fileUtils) {
             this.previewFactory = previewFactory;
-            this.redissonClient = redissonClient;
+            this.redisClient = redisClient;
             this.fileUtils = fileUtils;
         }
 
@@ -59,8 +59,8 @@ public class FileConverQueueTask {
         public void run() {
             while (true) {
                 try {
-                    final RBlockingQueue<String> queue = redissonClient.getBlockingQueue(FileConverQueueTask.queueTaskName);
-                    String url = queue.take();
+                    KeyValue<String,String> keyValue = redisClient.connect().sync().brpop(3000,FileConverQueueTask.queueTaskName);
+                    String url = keyValue.getValue();
                     if (url != null) {
                         FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
                         logger.info("正在处理转换任务，文件名称【{}】", fileAttribute.getName());

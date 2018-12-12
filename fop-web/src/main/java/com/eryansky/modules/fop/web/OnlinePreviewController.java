@@ -4,9 +4,8 @@ import com.eryansky.modules.fop.service.FileConverQueueTask;
 import com.eryansky.modules.fop.service.FilePreview;
 import com.eryansky.modules.fop.service.FilePreviewFactory;
 
+import io.lettuce.core.RedisClient;
 import org.apache.commons.io.IOUtils;
-import org.redisson.api.RBlockingQueue;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +36,7 @@ public class OnlinePreviewController {
     FilePreviewFactory previewFactory;
 
     @Autowired
-    RedissonClient redissonClient;
+    RedisClient redisClient;
 
     /**
      * @param url
@@ -127,8 +126,7 @@ public class OnlinePreviewController {
     @GetMapping("/addTask")
     @ResponseBody
     public String addQueueTask(String url) {
-        final RBlockingQueue<String> queue = redissonClient.getBlockingQueue(FileConverQueueTask.queueTaskName);
-        queue.addAsync(url);
+        redisClient.connect().sync().lpush(FileConverQueueTask.queueTaskName,url);
         return "success";
     }
 
