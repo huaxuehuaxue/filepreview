@@ -367,7 +367,7 @@ public class ZipReaderManager {
 
         @Override
         public void run() {
-            log.info("解析压缩文件开始...{}",filePath);
+            log.info("解析压缩文件开始.{}",filePath);
             for (Map<String, ZipArchiveEntry> entryMap : entriesToBeExtracted) {
                 String childName = entryMap.keySet().iterator().next();
                 ZipArchiveEntry entry = entryMap.values().iterator().next();
