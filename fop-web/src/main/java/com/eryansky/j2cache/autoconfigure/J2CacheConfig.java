@@ -14,7 +14,7 @@ public class J2CacheConfig {
      * 是否开启spring cache缓存,注意:开启后需要添加spring.cache.type=GENERIC,将缓存类型设置为GENERIC
      */
     private Boolean openSpringCache = false;
-    
+
     /**
      * 缓存清除模式，
      * <ul>

@@ -6,14 +6,10 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.eryansky.j2cache.*;
 import com.eryansky.j2cache.autoconfigure.J2CacheConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.eryansky.j2cache.Cache;
-import com.eryansky.j2cache.CacheChannel;
-import com.eryansky.j2cache.CacheExpiredListener;
-import com.eryansky.j2cache.CacheObject;
-import com.eryansky.j2cache.CacheProvider;
 import com.eryansky.j2cache.cache.support.util.SpringUtil;
 
 /**
@@ -51,6 +47,9 @@ public class SpringRedisProvider implements CacheProvider {
 
 	@Override
 	public Cache buildCache(String region, CacheExpiredListener listener) {
+		if(!config.isL2CacheOpen()) {
+			return new NullCache();
+		}
 		Cache cache = caches.get(region);
 		if (cache == null) {
 			synchronized (SpringRedisProvider.class) {

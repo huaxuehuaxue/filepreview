@@ -102,7 +102,7 @@ public class SpringRedisPubSubPolicy implements ClusterPolicy {
 
 	@Override
 	public void publish(Command cmd) {
-		if(!isActive) {
+		if(!isActive && config.isL2CacheOpen()) {
 			cmd.setSrc(LOCAL_COMMAND_ID);
 			redisTemplate.convertAndSend(this.channel, cmd.json());
 		}
@@ -110,7 +110,7 @@ public class SpringRedisPubSubPolicy implements ClusterPolicy {
 
 	@Override
 	public void disconnect() {
-		if(!isActive) {
+		if(!isActive && config.isL2CacheOpen()) {
 			Command cmd = new Command();
 			cmd.setSrc(LOCAL_COMMAND_ID);
 			cmd.setOperator(Command.OPT_QUIT);
