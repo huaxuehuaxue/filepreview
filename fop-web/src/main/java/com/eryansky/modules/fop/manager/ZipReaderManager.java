@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,9 @@ import java.util.regex.Pattern;
  */
 @Component
 public class ZipReaderManager {
+
+    private Logger log = LoggerFactory.getLogger(getClass());
+
     static Pattern pattern = Pattern.compile("^\\d+");
 
     @Autowired
@@ -362,7 +367,7 @@ public class ZipReaderManager {
 
         @Override
         public void run() {
-            System.out.println("解析压缩文件开始《《《《《《《《《《《《《《《《《《《《《《《");
+            log.info("解析压缩文件开始...{}",filePath);
             for (Map<String, ZipArchiveEntry> entryMap : entriesToBeExtracted) {
                 String childName = entryMap.keySet().iterator().next();
                 ZipArchiveEntry entry = entryMap.values().iterator().next();
@@ -380,7 +385,7 @@ public class ZipReaderManager {
             if (new File(filePath).exists()) {
                 new File(filePath).delete();
             }
-            System.out.println("解析压缩文件结束《《《《《《《《《《《《《《《《《《《《《《《");
+            log.info("解析压缩文件结束.{}",filePath);
         }
 
 

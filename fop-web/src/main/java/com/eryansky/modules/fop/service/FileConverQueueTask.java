@@ -1,10 +1,9 @@
 package com.eryansky.modules.fop.service;
 
+import com.eryansky.j2cache.CacheChannel;
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
 import com.eryansky.modules.fop.manager.FileManager;
-import io.lettuce.core.KeyValue;
-import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisCommandTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class FileConverQueueTask {
     FilePreviewFactory filePreviewFactory;
 
     @Autowired
-    RedisClient redisClient;
+    CacheChannel cacheChannel;
 
     @Autowired
     FileManager fileManager;
@@ -38,7 +37,7 @@ public class FileConverQueueTask {
     @PostConstruct
     public void startTask() {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        executorService.submit(new ConverTask(filePreviewFactory, redisClient, fileManager));
+        executorService.submit(new ConverTask(filePreviewFactory, cacheChannel, fileManager));
         logger.info("队列处理文件转换任务启动完成 ");
     }
 
@@ -46,13 +45,13 @@ public class FileConverQueueTask {
 
         FilePreviewFactory previewFactory;
 
-        RedisClient redisClient;
+        CacheChannel cacheChannel;
 
         FileManager fileManager;
 
-        public ConverTask(FilePreviewFactory previewFactory, RedisClient redisClient, FileManager fileManager) {
+        public ConverTask(FilePreviewFactory previewFactory, CacheChannel cacheChannel, FileManager fileManager) {
             this.previewFactory = previewFactory;
-            this.redisClient = redisClient;
+            this.cacheChannel = cacheChannel;
             this.fileManager = fileManager;
         }
 
@@ -60,8 +59,7 @@ public class FileConverQueueTask {
         public void run() {
             while (true) {
                 try {
-                    KeyValue<String,String> keyValue = redisClient.connect().sync().brpop(3000,FileConverQueueTask.queueTaskName);
-                    String url = keyValue.getValue();
+                    String url = cacheChannel.pop(FileConverQueueTask.queueTaskName);
                     if (url != null) {
                         FileAttribute fileAttribute = fileManager.getFileAttribute(url);
                         logger.info("正在处理转换任务，文件名称【{}】", fileAttribute.getName());

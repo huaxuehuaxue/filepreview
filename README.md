@@ -14,8 +14,7 @@
 > 项目使用技术
 - spring boot：
 - freemarker
-- redisson 
 - jodconverter
 > 依赖外部环境
-- redis 
 - OpenOffice或者LibreOffice
+- redis (可选)

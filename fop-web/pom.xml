@@ -14,7 +14,7 @@
 
 
     <properties>
-        <essm.j2cache.version>2.8.20181213</essm.j2cache.version>
+        <essm.j2cache.version>2.8.20181214</essm.j2cache.version>
         <redis.version>2.9.0</redis.version>
         <lettuce.version>5.1.3.RELEASE</lettuce.version>
         <ehcache.version>2.10.5</ehcache.version>

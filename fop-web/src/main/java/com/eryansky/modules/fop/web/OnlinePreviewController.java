@@ -1,10 +1,10 @@
 package com.eryansky.modules.fop.web;
 
+import com.eryansky.j2cache.CacheChannel;
 import com.eryansky.modules.fop.service.FileConverQueueTask;
 import com.eryansky.modules.fop.service.FilePreview;
 import com.eryansky.modules.fop.service.FilePreviewFactory;
 
-import io.lettuce.core.RedisClient;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ public class OnlinePreviewController {
     FilePreviewFactory previewFactory;
 
     @Autowired
-    RedisClient redisClient;
+    CacheChannel cacheChannel;
 
     /**
      * @param url
@@ -126,7 +126,7 @@ public class OnlinePreviewController {
     @GetMapping("/addTask")
     @ResponseBody
     public String addQueueTask(String url) {
-        redisClient.connect().sync().lpush(FileConverQueueTask.queueTaskName,url);
+        cacheChannel.push(FileConverQueueTask.queueTaskName,url);
         return "success";
     }
 

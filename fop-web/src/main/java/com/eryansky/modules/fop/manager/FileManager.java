@@ -1,14 +1,11 @@
 package com.eryansky.modules.fop.manager;
 
+import com.eryansky.j2cache.CacheChannel;
+import com.eryansky.j2cache.CacheObject;
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.api.sync.RedisCommands;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +32,7 @@ public class FileManager {
     final String CACHE_PDF = "converted-preview-pdf-file";
     final String CACHE_IMGS = "converted-preview-imgs-file";//压缩包内图片文件集合
     @Autowired
-    RedisClient redisClient;
+    private CacheChannel cacheChannel;
     @Value("${file.dir}")
     String fileDir;
 
@@ -53,8 +51,14 @@ public class FileManager {
      * @return
      */
     public Map<String, String> listConvertedFiles() {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        return connection.sync().hgetall(CACHE_PDF);
+        Collection<String> keys = cacheChannel.keys(CACHE_PDF);
+        Map<String, CacheObject> map = cacheChannel.get(CACHE_PDF,keys);
+        if(map == null){
+            return null;
+        }
+        Map<String,String> dataMap = Maps.newConcurrentMap();
+         map.forEach((k,v)->dataMap.put(k,v.getValue() == null ? null:(String)v.getValue()));
+        return dataMap;
     }
 
     /**
@@ -63,8 +67,8 @@ public class FileManager {
      * @return
      */
     public String getConvertedFile(String field) {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        return connection.sync().hget(CACHE_PDF,field);
+        CacheObject cacheObject = cacheChannel.get(CACHE_PDF,field);
+        return cacheObject == null ? null:(String)cacheObject.getValue();
     }
 
     /**
@@ -179,8 +183,7 @@ public class FileManager {
     }
 
     public void addConvertedFile(String fileName, String value) {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        connection.sync().hset(CACHE_PDF,fileName,value);
+        cacheChannel.set(CACHE_PDF,fileName,value);
     }
 
     /**
@@ -190,15 +193,8 @@ public class FileManager {
      * @return
      */
     public List<String> getRedisImgUrls(String fileKey) {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        RedisCommands<String,String> redisCommands = connection.sync();
-        String value = redisCommands.hget(CACHE_IMGS,fileKey);
-        try {
-           return new ObjectMapper().readValue(value, new TypeReference<List<String>>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        CacheObject cacheObject = cacheChannel.get(CACHE_IMGS,fileKey);
+        return cacheObject == null ? null:(List<String>)cacheObject.getValue();
     }
 
     /**
@@ -208,15 +204,7 @@ public class FileManager {
      * @param imgs
      */
     public void setRedisImgUrls(String fileKey, List<String> imgs) {
-        StatefulRedisConnection<String, String> connection = redisClient.connect();
-        RedisCommands<String,String> redisCommands = connection.sync();
-        String value = null;
-        try {
-            value = new ObjectMapper().writeValueAsString(imgs);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        redisCommands.hset(CACHE_IMGS,fileKey,value);
+        cacheChannel.set(CACHE_IMGS,fileKey,imgs);
     }
 
     /**
