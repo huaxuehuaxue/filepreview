@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.eryansky.modules.fop.model.ReturnResponse;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ public class FileController {
     @Value("${file.dir}")
     String fileDir;
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
     String demoDir = "demo";
     String demoPath = demoDir + File.separator;
 
@@ -97,11 +97,11 @@ public class FileController {
      */
     private boolean existsTypeFile(String fileName) {
         boolean result = false;
-        String suffix = fileUtils.getSuffixFromFileName(fileName);
+        String suffix = fileManager.getSuffixFromFileName(fileName);
         File file = new File(fileDir + demoPath);
         if (file.exists()) {
             for (File file1 : file.listFiles()) {
-                String existsFileSuffix = fileUtils.getSuffixFromFileName(file1.getName());
+                String existsFileSuffix = fileManager.getSuffixFromFileName(file1.getName());
                 if (suffix.equals(existsFileSuffix)) {
                     result = true;
                     break;

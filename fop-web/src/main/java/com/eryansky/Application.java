@@ -13,9 +13,8 @@ import java.util.Properties;
         "com.eryansky.configure",
         "com.eryansky.modules.fop.web",
         "com.eryansky.modules.fop.task",
-        "com.eryansky.modules.fop.fop",
-        "com.eryansky.modules.fop.service",
-        "com.eryansky.modules.fop.utils"
+        "com.eryansky.modules.fop.manager",
+        "com.eryansky.modules.fop.service"
 })
 public class Application {
     public static void main(String[] args) {

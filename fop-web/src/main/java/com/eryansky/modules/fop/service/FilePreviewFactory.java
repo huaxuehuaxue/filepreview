@@ -1,7 +1,7 @@
 package com.eryansky.modules.fop.service;
 
 import com.eryansky.modules.fop.model.FileAttribute;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,14 @@ import java.util.Map;
 public class FilePreviewFactory {
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Autowired
     ApplicationContext context;
 
     public FilePreview get(String url) {
         Map<String, FilePreview> filePreviewMap = context.getBeansOfType(FilePreview.class);
-        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        FileAttribute fileAttribute = fileManager.getFileAttribute(url);
         return filePreviewMap.get(fileAttribute.getType().getInstanceName());
     }
 }

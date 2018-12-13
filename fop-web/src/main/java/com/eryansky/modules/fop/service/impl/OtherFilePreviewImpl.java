@@ -2,7 +2,7 @@ package com.eryansky.modules.fop.service.impl;
 
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.service.FilePreview;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -14,11 +14,11 @@ import org.springframework.ui.Model;
 @Service
 public class OtherFilePreviewImpl implements FilePreview {
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Override
     public String filePreviewHandle(String url, Model model) {
-        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        FileAttribute fileAttribute = fileManager.getFileAttribute(url);
 
         model.addAttribute("fileType", fileAttribute.getSuffix());
         model.addAttribute("msg", "系统还不支持该格式文件的在线预览，" +

@@ -1,4 +1,4 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +10,14 @@ import java.io.File;
  * @author yudian-it
  */
 @Component
-public class OfficeToPdf {
+public class OfficeToPdfManager {
     /**
      * 获取OpenOffice.org 3的安装目录
      *
      * @return OpenOffice.org 3的安装目录
      */
     @Autowired
-    ConverterUtils converterUtils;
+    ConverterManager converterUtils;
 
     /**
      * 使Office2003-2007全部格式的文档(.doc|.docx|.xls|.xlsx|.ppt|.pptx) 转化为pdf文件<br>

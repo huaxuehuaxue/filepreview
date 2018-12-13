@@ -3,8 +3,8 @@ package com.eryansky.modules.fop.service.impl;
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.ReturnResponse;
 import com.eryansky.modules.fop.service.FilePreview;
-import com.eryansky.modules.fop.utils.FileUtils;
-import com.eryansky.modules.fop.utils.SimTextUtil;
+import com.eryansky.modules.fop.manager.FileManager;
+import com.eryansky.modules.fop.manager.SimTextManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -17,17 +17,17 @@ import org.springframework.ui.Model;
 public class SimTextFilePreviewImpl implements FilePreview {
 
     @Autowired
-    SimTextUtil simTextUtil;
+    SimTextManager simTextManager;
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Override
     public String filePreviewHandle(String url, Model model) {
-        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        FileAttribute fileAttribute = fileManager.getFileAttribute(url);
         String decodedUrl = fileAttribute.getDecodedUrl();
         String fileName = fileAttribute.getName();
-        ReturnResponse<String> response = simTextUtil.readSimText(decodedUrl, fileName);
+        ReturnResponse<String> response = simTextManager.readSimText(decodedUrl, fileName);
         if (0 != response.getCode()) {
             model.addAttribute("msg", response.getMsg());
             model.addAttribute("fileType", fileAttribute.getSuffix());

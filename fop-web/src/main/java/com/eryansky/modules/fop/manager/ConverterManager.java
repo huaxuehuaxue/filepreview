@@ -1,4 +1,4 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import com.sun.star.document.UpdateDocMode;
 import com.eryansky.modules.fop.extend.ControlDocumentFormatRegistry;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @date 2017/11/13
  */
 @Component
-public class ConverterUtils {
+public class ConverterManager {
 
     @Value("${office.home}")
     String officeHome;

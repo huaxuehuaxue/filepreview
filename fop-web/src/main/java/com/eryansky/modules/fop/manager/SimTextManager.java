@@ -1,4 +1,4 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import com.eryansky.modules.fop.model.ReturnResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
  * @date 2017/12/13
  */
 @Component
-public class SimTextUtil {
+public class SimTextManager {
     @Value("${file.dir}")
     String fileDir;
     @Autowired
-    DownloadUtils downloadUtils;
+    DownloadManager downloadManager;
 
     public ReturnResponse<String> readSimText(String url, String fileName) {
-        ReturnResponse<String> response = downloadUtils.downLoad(url, "txt", fileName);
+        ReturnResponse<String> response = downloadManager.downLoad(url, "txt", fileName);
         return response;
     }
 }

@@ -1,4 +1,4 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import com.eryansky.modules.fop.model.FileType;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,11 +30,11 @@ import java.util.regex.Pattern;
  * @date 2017/11/27
  */
 @Component
-public class ZipReader {
+public class ZipReaderManager {
     static Pattern pattern = Pattern.compile("^\\d+");
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
     @Value("${file.dir}")
     String fileDir;
 
@@ -62,9 +62,9 @@ public class ZipReader {
         Map<String, FileNode> appender = Maps.newHashMap();
         List imgUrls = Lists.newArrayList();
         String baseUrl = (String) RequestContextHolder.currentRequestAttributes().getAttribute("baseUrl", 0);
-        String archiveFileName = fileUtils.getFileNameFromPath(filePath);
+        String archiveFileName = fileManager.getFileNameFromPath(filePath);
         try {
-            ZipFile zipFile = new ZipFile(filePath, fileUtils.getFileEncodeUTFGBK(filePath));
+            ZipFile zipFile = new ZipFile(filePath, fileManager.getFileEncodeUTFGBK(filePath));
             Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
             // 排序
             entries = sortZipEntries(entries);
@@ -83,7 +83,7 @@ public class ZipReader {
                 }
                 String parentName = getLast2FileName(fullName, archiveSeparator, archiveFileName);
                 parentName = (level - 1) + "_" + parentName;
-                FileType type = fileUtils.typeFromUrl(childName);
+                FileType type = fileManager.typeFromUrl(childName);
                 if (type.equals(FileType.picture)) {//添加图片文件到图片列表
                     imgUrls.add(baseUrl + childName);
                 }
@@ -93,7 +93,7 @@ public class ZipReader {
             }
             // 开启新的线程处理文件解压
             executors.submit(new ZipExtractorWorker(entriesToBeExtracted, zipFile, filePath));
-            fileUtils.setRedisImgUrls(fileKey, imgUrls);
+            fileManager.setRedisImgUrls(fileKey, imgUrls);
             return new ObjectMapper().writeValueAsString(appender.get(""));
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,7 +124,7 @@ public class ZipReader {
             Archive archive = new Archive(new FileInputStream(filePath));
             List<FileHeader> headers = archive.getFileHeaders();
             headers = sortedHeaders(headers);
-            String archiveFileName = fileUtils.getFileNameFromPath(filePath);
+            String archiveFileName = fileManager.getFileNameFromPath(filePath);
             List<Map<String, FileHeader>> headersToBeExtracted = Lists.newArrayList();
             for (FileHeader header : headers) {
                 String fullName;
@@ -142,7 +142,7 @@ public class ZipReader {
                     headersToBeExtracted.add(Collections.singletonMap(childName, header));
                 }
                 String parentName = getLast2FileName(fullName, "\\", archiveFileName);
-                FileType type = fileUtils.typeFromUrl(childName);
+                FileType type = fileManager.typeFromUrl(childName);
                 if (type.equals(FileType.picture)) {//添加图片文件到图片列表
                     imgUrls.add(baseUrl + childName);
                 }
@@ -151,7 +151,7 @@ public class ZipReader {
                 appender.put(childName, node);
             }
             executors.submit(new RarExtractorWorker(headersToBeExtracted, archive, filePath));
-            fileUtils.setRedisImgUrls(fileKey, imgUrls);
+            fileManager.setRedisImgUrls(fileKey, imgUrls);
             return new ObjectMapper().writeValueAsString(appender.get(""));
         } catch (RarException e) {
             e.printStackTrace();

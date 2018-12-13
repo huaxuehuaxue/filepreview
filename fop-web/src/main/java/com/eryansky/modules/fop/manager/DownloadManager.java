@@ -1,6 +1,7 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import com.eryansky.modules.fop.model.ReturnResponse;
+import com.eryansky.modules.fop.utils.FileCharsetDetector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
  * @author yudian-it
  */
 @Component
-public class DownloadUtils {
+public class DownloadManager {
 
     @Value("${file.dir}")
     String fileDir;

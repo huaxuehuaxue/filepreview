@@ -2,7 +2,7 @@ package com.eryansky.modules.fop.service;
 
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import io.lettuce.core.KeyValue;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisCommandTimeoutException;
@@ -33,12 +33,12 @@ public class FileConverQueueTask {
     RedisClient redisClient;
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @PostConstruct
     public void startTask() {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        executorService.submit(new ConverTask(filePreviewFactory, redisClient, fileUtils));
+        executorService.submit(new ConverTask(filePreviewFactory, redisClient, fileManager));
         logger.info("队列处理文件转换任务启动完成 ");
     }
 
@@ -48,12 +48,12 @@ public class FileConverQueueTask {
 
         RedisClient redisClient;
 
-        FileUtils fileUtils;
+        FileManager fileManager;
 
-        public ConverTask(FilePreviewFactory previewFactory, RedisClient redisClient, FileUtils fileUtils) {
+        public ConverTask(FilePreviewFactory previewFactory, RedisClient redisClient, FileManager fileManager) {
             this.previewFactory = previewFactory;
             this.redisClient = redisClient;
-            this.fileUtils = fileUtils;
+            this.fileManager = fileManager;
         }
 
         @Override
@@ -63,7 +63,7 @@ public class FileConverQueueTask {
                     KeyValue<String,String> keyValue = redisClient.connect().sync().brpop(3000,FileConverQueueTask.queueTaskName);
                     String url = keyValue.getValue();
                     if (url != null) {
-                        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+                        FileAttribute fileAttribute = fileManager.getFileAttribute(url);
                         logger.info("正在处理转换任务，文件名称【{}】", fileAttribute.getName());
                         FileType fileType = fileAttribute.getType();
                         if (fileType.equals(FileType.compress) || fileType.equals(FileType.office)) {

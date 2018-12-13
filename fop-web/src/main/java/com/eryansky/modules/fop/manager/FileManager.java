@@ -1,4 +1,4 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.manager;
 
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.FileType;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2017/11/13
  */
 @Component
-public class FileUtils {
+public class FileManager {
     Logger log = LoggerFactory.getLogger(getClass());
 
 

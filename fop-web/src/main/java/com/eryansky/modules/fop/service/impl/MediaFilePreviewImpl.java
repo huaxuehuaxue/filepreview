@@ -1,7 +1,7 @@
 package com.eryansky.modules.fop.service.impl;
 
 import com.eryansky.modules.fop.service.FilePreview;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 public class MediaFilePreviewImpl implements FilePreview {
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Override
     public String filePreviewHandle(String url, Model model) {

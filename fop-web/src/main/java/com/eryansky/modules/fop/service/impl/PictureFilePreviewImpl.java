@@ -1,7 +1,7 @@
 package com.eryansky.modules.fop.service.impl;
 
 import com.eryansky.modules.fop.service.FilePreview;
-import com.eryansky.modules.fop.utils.FileUtils;
+import com.eryansky.modules.fop.manager.FileManager;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
 public class PictureFilePreviewImpl implements FilePreview {
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Override
     public String filePreviewHandle(String url, Model model) {
@@ -26,7 +26,7 @@ public class PictureFilePreviewImpl implements FilePreview {
         List imgUrls = Lists.newArrayList(url);
         try {
             imgUrls.clear();
-            imgUrls.addAll(fileUtils.getRedisImgUrls(fileKey));
+            imgUrls.addAll(fileManager.getRedisImgUrls(fileKey));
         } catch (Exception e) {
             imgUrls = Lists.newArrayList(url);
         }

@@ -3,9 +3,9 @@ package com.eryansky.modules.fop.service.impl;
 import com.eryansky.modules.fop.model.FileAttribute;
 import com.eryansky.modules.fop.model.ReturnResponse;
 import com.eryansky.modules.fop.service.FilePreview;
-import com.eryansky.modules.fop.utils.DownloadUtils;
-import com.eryansky.modules.fop.utils.FileUtils;
-import com.eryansky.modules.fop.utils.ZipReader;
+import com.eryansky.modules.fop.manager.DownloadManager;
+import com.eryansky.modules.fop.manager.FileManager;
+import com.eryansky.modules.fop.manager.ZipReaderManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -19,37 +19,37 @@ import org.springframework.util.StringUtils;
 public class CompressFilePreviewImpl implements FilePreview {
 
     @Autowired
-    FileUtils fileUtils;
+    FileManager fileManager;
 
     @Autowired
-    DownloadUtils downloadUtils;
+    DownloadManager downloadManager;
 
     @Autowired
-    ZipReader zipReader;
+    ZipReaderManager zipReaderManager;
 
     @Override
     public String filePreviewHandle(String url, Model model) {
-        FileAttribute fileAttribute = fileUtils.getFileAttribute(url);
+        FileAttribute fileAttribute = fileManager.getFileAttribute(url);
         String fileName = fileAttribute.getName();
         String decodedUrl = fileAttribute.getDecodedUrl();
         String suffix = fileAttribute.getSuffix();
         String fileTree = null;
         // 判断文件名是否存在(redis缓存读取)
-        if (!StringUtils.hasText(fileUtils.getConvertedFile(fileName))) {
-            ReturnResponse<String> response = downloadUtils.downLoad(decodedUrl, suffix, fileName);
+        if (!StringUtils.hasText(fileManager.getConvertedFile(fileName))) {
+            ReturnResponse<String> response = downloadManager.downLoad(decodedUrl, suffix, fileName);
             if (0 != response.getCode()) {
                 model.addAttribute("msg", response.getMsg());
                 return "fileNotSupported";
             }
             String filePath = response.getContent();
             if ("zip".equalsIgnoreCase(suffix) || "jar".equalsIgnoreCase(suffix) || "gzip".equalsIgnoreCase(suffix)) {
-                fileTree = zipReader.readZipFile(filePath, fileName);
+                fileTree = zipReaderManager.readZipFile(filePath, fileName);
             } else if ("rar".equalsIgnoreCase(suffix)) {
-                fileTree = zipReader.unRar(filePath, fileName);
+                fileTree = zipReaderManager.unRar(filePath, fileName);
             }
-            fileUtils.addConvertedFile(fileName, fileTree);
+            fileManager.addConvertedFile(fileName, fileTree);
         } else {
-            fileTree = fileUtils.getConvertedFile(fileName);
+            fileTree = fileManager.getConvertedFile(fileName);
         }
         if (null != fileTree) {
             model.addAttribute("fileTree", fileTree);
