@@ -12,6 +12,8 @@ import java.util.Properties;
 @ComponentScan(value = {"com.eryansky.j2cache.autoconfigure",
         "com.eryansky.configure",
         "com.eryansky.modules.fop.web",
+        "com.eryansky.modules.fop.task",
+        "com.eryansky.modules.fop.fop",
         "com.eryansky.modules.fop.service",
         "com.eryansky.modules.fop.utils"
 })

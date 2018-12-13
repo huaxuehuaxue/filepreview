@@ -1,10 +1,11 @@
-package com.eryansky.modules.fop.utils;
+package com.eryansky.modules.fop.task;
 
+import com.eryansky.modules.fop.utils.DeleteFileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShedulerClean {
+public class ShedulerTask {
     @Value("${file.dir}")
     String fileDir;
 
