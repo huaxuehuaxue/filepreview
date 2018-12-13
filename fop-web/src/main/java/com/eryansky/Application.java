@@ -9,7 +9,12 @@ import java.util.Properties;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(value = {"com.eryansky.j2cache.autoconfigure","com.eryansky.configure","com.eryansky.modules.fop.*",})
+@ComponentScan(value = {"com.eryansky.j2cache.autoconfigure",
+        "com.eryansky.configure",
+        "com.eryansky.modules.fop.web",
+        "com.eryansky.modules.fop.service",
+        "com.eryansky.modules.fop.utils"
+})
 public class Application {
     public static void main(String[] args) {
         Properties properties = System.getProperties();
