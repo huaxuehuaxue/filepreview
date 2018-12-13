@@ -31,8 +31,8 @@ public class FileManager {
     Logger log = LoggerFactory.getLogger(getClass());
 
 
-    final String REDIS_FILE_PREVIEW_PDF_KEY = "converted-preview-pdf-file";
-    final String REDIS_FILE_PREVIEW_IMGS_KEY = "converted-preview-imgs-file";//压缩包内图片文件集合
+    final String CACHE_PDF = "converted-preview-pdf-file";
+    final String CACHE_IMGS = "converted-preview-imgs-file";//压缩包内图片文件集合
     @Autowired
     RedisClient redisClient;
     @Value("${file.dir}")
@@ -54,7 +54,7 @@ public class FileManager {
      */
     public Map<String, String> listConvertedFiles() {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
-        return connection.sync().hgetall(REDIS_FILE_PREVIEW_PDF_KEY);
+        return connection.sync().hgetall(CACHE_PDF);
     }
 
     /**
@@ -64,7 +64,7 @@ public class FileManager {
      */
     public String getConvertedFile(String field) {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
-        return connection.sync().hget(REDIS_FILE_PREVIEW_PDF_KEY,field);
+        return connection.sync().hget(CACHE_PDF,field);
     }
 
     /**
@@ -180,7 +180,7 @@ public class FileManager {
 
     public void addConvertedFile(String fileName, String value) {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
-        connection.sync().hset(REDIS_FILE_PREVIEW_PDF_KEY,fileName,value);
+        connection.sync().hset(CACHE_PDF,fileName,value);
     }
 
     /**
@@ -192,7 +192,7 @@ public class FileManager {
     public List<String> getRedisImgUrls(String fileKey) {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
         RedisCommands<String,String> redisCommands = connection.sync();
-        String value = redisCommands.hget(REDIS_FILE_PREVIEW_IMGS_KEY,fileKey);
+        String value = redisCommands.hget(CACHE_IMGS,fileKey);
         try {
            return new ObjectMapper().readValue(value, new TypeReference<List<String>>() {});
         } catch (IOException e) {
@@ -216,7 +216,7 @@ public class FileManager {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        redisCommands.hset(REDIS_FILE_PREVIEW_IMGS_KEY,fileKey,value);
+        redisCommands.hset(CACHE_IMGS,fileKey,value);
     }
 
     /**
