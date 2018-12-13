@@ -1,4 +1,4 @@
-package com.eryansky.config;
+package com.eryansky.configure;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;

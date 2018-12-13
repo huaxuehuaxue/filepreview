@@ -9,11 +9,11 @@ import java.util.Properties;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(value = "com.eryansky.*")
-public class FilePreviewApplication {
+@ComponentScan(value = {"com.eryansky.j2cache.autoconfigure","com.eryansky.configure","com.eryansky.modules.fop.*",})
+public class Application {
     public static void main(String[] args) {
         Properties properties = System.getProperties();
         System.out.println(properties.get("user.dir"));
-        SpringApplication.run(FilePreviewApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

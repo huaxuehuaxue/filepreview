@@ -1,4 +1,4 @@
-package com.eryansky.config;
+package com.eryansky.utils;
 
 import io.lettuce.core.codec.RedisCodec;
 

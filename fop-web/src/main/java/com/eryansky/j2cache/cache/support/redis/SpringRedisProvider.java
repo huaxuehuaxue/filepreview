@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.eryansky.j2cache.autoconfigure.J2CacheConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import com.eryansky.j2cache.Cache;
@@ -23,6 +24,9 @@ import com.eryansky.j2cache.cache.support.util.SpringUtil;
 public class SpringRedisProvider implements CacheProvider {
 
 	private RedisTemplate<String, Serializable> redisTemplate;
+
+	private J2CacheConfig config;
+
 
 	private String namespace;
 
@@ -74,6 +78,10 @@ public class SpringRedisProvider implements CacheProvider {
 	public void start(Properties props) {
 		this.namespace = props.getProperty("namespace");
 		this.storage = props.getProperty("storage");
+		this.config = SpringUtil.getBean(J2CacheConfig.class);
+		if (!config.isL2CacheOpen()) {
+			return;
+		}
 		this.redisTemplate = SpringUtil.getBean("j2CacheRedisTemplate", RedisTemplate.class);
 	}
 

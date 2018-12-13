@@ -26,9 +26,9 @@ public class J2CacheConfig {
     private String cacheCleanMode = "passive";
     
     /**
-     * 是否允许缓存空值,默认:true
+     * 是否允许缓存空值,默认:false
      */
-    private boolean allowNullValues = true;
+    private boolean allowNullValues = false;
     
     /**
      * 使用哪种redis客户端,默认：jedis
@@ -39,8 +39,14 @@ public class J2CacheConfig {
      */
     private String redisClient = "jedis";
 
-    
-    public String getConfigLocation() {
+	/**
+	 * 是否开启二级缓存
+	 */
+	private boolean l2CacheOpen = true;
+
+
+
+	public String getConfigLocation() {
         return configLocation;
     }
 
@@ -78,5 +84,13 @@ public class J2CacheConfig {
 
 	public void setRedisClient(String redisClient) {
 		this.redisClient = redisClient;
+	}
+
+	public boolean isL2CacheOpen() {
+		return l2CacheOpen;
+	}
+
+	public void setL2CacheOpen(boolean l2CacheOpen) {
+		this.l2CacheOpen = l2CacheOpen;
 	}
 }
