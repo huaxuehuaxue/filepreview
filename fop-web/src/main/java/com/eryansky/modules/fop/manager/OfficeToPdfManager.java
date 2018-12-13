@@ -17,7 +17,7 @@ public class OfficeToPdfManager {
      * @return OpenOffice.org 3的安装目录
      */
     @Autowired
-    ConverterManager converterUtils;
+    ConverterManager converterManager;
 
     /**
      * 使Office2003-2007全部格式的文档(.doc|.docx|.xls|.xlsx|.ppt|.pptx) 转化为pdf文件<br>
@@ -60,7 +60,7 @@ public class OfficeToPdfManager {
      */
     public boolean office2pdf(String inputFilePath, String outputFilePath) {
         boolean flag = false;
-        OfficeDocumentConverter converter = converterUtils.getDocumentConverter();
+        OfficeDocumentConverter converter = converterManager.getDocumentConverter();
         if (null != inputFilePath) {
             File inputFile = new File(inputFilePath);
             // 判断目标文件路径是否为空
