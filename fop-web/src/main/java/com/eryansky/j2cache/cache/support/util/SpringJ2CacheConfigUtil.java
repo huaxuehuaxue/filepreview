@@ -2,7 +2,6 @@ package com.eryansky.j2cache.cache.support.util;
 
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.io.support.ResourcePropertySource;
 
 import com.eryansky.j2cache.J2CacheConfig;
 
