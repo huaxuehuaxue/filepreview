@@ -5,6 +5,8 @@ import com.eryansky.modules.fop.service.FileConverQueueTask;
 import com.eryansky.modules.fop.service.FilePreview;
 import com.eryansky.modules.fop.service.FilePreviewFactory;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,7 @@ import java.util.List;
 /**
  * @author yudian-it
  */
+@Api(value = "OnlinePreview相关api",description = "OnlinePreview相关API",tags = "OnlinePreview")
 @Controller
 public class OnlinePreviewController {
 
@@ -43,6 +46,7 @@ public class OnlinePreviewController {
      * @param model
      * @return
      */
+    @ApiOperation(value = "onlinePreview",notes = "文件预览")
     @RequestMapping(value = "onlinePreview", method = RequestMethod.GET)
     public String onlinePreview(String url, Model model, HttpServletRequest req) {
         req.setAttribute("fileKey", req.getParameter("fileKey"));
@@ -126,7 +130,7 @@ public class OnlinePreviewController {
     @GetMapping("/addTask")
     @ResponseBody
     public String addQueueTask(String url) {
-        cacheChannel.push(FileConverQueueTask.queueTaskName,url);
+        cacheChannel.queuePush(FileConverQueueTask.queueTaskName,url);
         return "success";
     }
 

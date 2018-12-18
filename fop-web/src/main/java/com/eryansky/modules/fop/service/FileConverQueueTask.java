@@ -59,7 +59,7 @@ public class FileConverQueueTask {
         public void run() {
             while (true) {
                 try {
-                    String url = cacheChannel.pop(FileConverQueueTask.queueTaskName);
+                    String url = cacheChannel.queuePop(FileConverQueueTask.queueTaskName);
                     if (url != null) {
                         FileAttribute fileAttribute = fileManager.getFileAttribute(url);
                         logger.info("正在处理转换任务，文件名称【{}】", fileAttribute.getName());
