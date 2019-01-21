@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.eryansky</groupId>
-    <artifactId>essm-fop</artifactId>
+    <artifactId>fop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>fop-core</module>
-        <module>fop-web</module>
+        <module>core</module>
+        <module>web</module>
     </modules>
     <packaging>pom</packaging>
 
